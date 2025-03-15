@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <script>
+        async function loadBooks() {
+            const response = await fetch('/api/books/');
+            const books = await response.json();
+            const booksDiv = document.getElementById('books-list');
+            booksDiv.innerHTML = '<h3>Books:</h3>';
+            books.forEach(book => {
+                booksDiv.innerHTML += `<p>${book.title} by ${book.author_name} (Published: ${book.published_date})</p>`;
+            });
+        }
+
+        async function loadAuthors() {
+            try {
+                // Fetch the authors from the API
+                const response = await fetch('http://localhost:5656/api/authors/');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+        
+                // Parse the JSON response
+                const data = await response.json();
+                const authors = data.results; // Extract the 'results' array
+        
+                // Get the authors-list container
+                const authorsDiv = document.getElementById('authors-list');
+                authorsDiv.innerHTML = '<h3>Authors:</h3>';
+        
+                // Handle the case where no authors are returned
+                if (authors.length === 0) {
+                    authorsDiv.innerHTML += '<p>No authors found.</p>';
+                    return;
+                }
+        
+                // Render each author
+                authors.forEach(author => {
+                    const authorElement = document.createElement('p');
+                    authorElement.textContent = `${author.first_name} ${author.last_name} (DOB: ${author.date_of_birth})`;
+                    authorsDiv.appendChild(authorElement);
+                });
+            } catch (error) {
+                console.error("Error fetching authors:", error);
+                alert("Failed to load authors. Please check the console for details.");
+            }
+        }
+        
+        
+
+        async function addBook(event) {
+            event.preventDefault();
+            const title = document.getElementById('book-title').value;
+            const authorId = document.getElementById('book-author').value;
+            const publishedDate = document.getElementById('book-published-date').value;
+            const isbn = document.getElementById('book-isbn').value;
+            const copies = document.getElementById('book-copies').value;
+
+            const response = await fetch('/api/books/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title,
+                    author: authorId,
+                    published_date: publishedDate,
+                    isbn_number: isbn,
+                    available_copies: copies,
+                }),
+            });
+
+            if (response.ok) {
+                alert('Book added successfully!');
+                loadBooks();
+            } else {
+                alert('Error adding book.');
+            }
+        }
+
+        async function addAuthor(event) {
+            event.preventDefault();
+            const firstName = document.getElementById('author-first-name').value;
+            const lastName = document.getElementById('author-last-name').value;
+            const dob = document.getElementById('author-dob').value;
+
+            const response = await fetch('/api/authors/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    date_of_birth: dob,
+                }),
+            });
+
+            if (response.ok) {
+                alert('Author added successfully!');
+                loadAuthors();
+            } else {
+                alert('Error adding author.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Library Management System</h1>
+    
+    <div>
+        <button onclick="loadBooks()">Load Books</button>
+        <button onclick="loadAuthors()">Load Authors</button>
+    </div>
+    
+    <div id="books-list"></div>
+    <div id="authors-list"></div>
+
+    <h3>Add Book</h3>
+    <form onsubmit="addBook(event)">
+        <label for="book-title">Title:</label>
+        <input type="text" id="book-title" required>
+        <br>
+        <label for="book-author">Author ID:</label>
+        <input type="number" id="book-author" required>
+        <br>
+        <label for="book-published-date">Published Date:</label>
+        <input type="date" id="book-published-date" required>
+        <br>
+        <label for="book-isbn">ISBN Number:</label>
+        <input type="text" id="book-isbn" required>
+        <br>
+        <label for="book-copies">Available Copies:</label>
+        <input type="number" id="book-copies" required>
+        <br>
+        <button type="submit">Add Book</button>
+    </form>
+
+    <h3>Add Author</h3>
+    <form onsubmit="addAuthor(event)">
+        <label for="author-first-name">First Name:</label>
+        <input type="text" id="author-first-name" required>
+        <br>
+        <label for="author-last-name">Last Name:</label>
+        <input type="text" id="author-last-name" required>
+        <br>
+        <label for="author-dob">Date of Birth:</label>
+        <input type="date" id="author-dob" required>
+        <br>
+        <button type="submit">Add Author</button>
+    </form>
+</body>
+</html>
