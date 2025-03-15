@@ -23,7 +23,7 @@ A Django-based Library Management System to manage books, users, and lending pro
 ### Installation & Setup
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Shrey-45/Library-management-System.git
    cd <repository-directory>
    ```
 
