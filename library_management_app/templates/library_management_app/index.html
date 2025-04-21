@@ -1,217 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Library Management</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 text-gray-800 min-h-screen font-sans">
-  <div class="max-w-5xl mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-8">📚 Library Management System</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 text-gray-800 min-h-screen font-sans">
+    <div class="max-w-5xl mx-auto p-6">
+      <h1 class="text-3xl font-bold text-center mb-8">📚 Library Management System</h1>
 
-    <div class="flex justify-center gap-4 mb-6">
-      <button onclick="loadBooks()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Load Books</button>
-      <button onclick="loadAuthors()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Load Authors</button>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div id="books-list" class="bg-white p-4 rounded shadow-md">
-        <h3 class="text-xl font-semibold mb-2">Books</h3>
+      <div class="flex justify-center gap-4 mb-6">
+        <button onclick="loadBooks()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Load Books</button>
+        <button onclick="loadAuthors()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Load Authors</button>
       </div>
-      <div id="authors-list" class="bg-white p-4 rounded shadow-md">
-        <h3 class="text-xl font-semibold mb-2">Authors</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div id="books-list" class="bg-white p-4 rounded shadow-md">
+          <h3 class="text-xl font-semibold mb-2">Books</h3>
+        </div>
+        <div id="authors-list" class="bg-white p-4 rounded shadow-md">
+          <h3 class="text-xl font-semibold mb-2">Authors</h3>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+        <!-- Add Book -->
+        <form onsubmit="addBook(event)" class="bg-white p-6 rounded shadow-md">
+          <h3 class="text-lg font-semibold mb-4">➕ Add Book</h3>
+          <div class="mb-4">
+            <label for="book-title" class="block font-medium mb-1">Title:</label>
+            <input type="text" id="book-title" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <div class="mb-4">
+            <label for="book-author" class="block font-medium mb-1">Author ID:</label>
+            <input type="number" id="book-author" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <div class="mb-4">
+            <label for="book-published-date" class="block font-medium mb-1">Published Date:</label>
+            <input type="date" id="book-published-date" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <div class="mb-4">
+            <label for="book-isbn" class="block font-medium mb-1">ISBN Number:</label>
+            <input type="text" id="book-isbn" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <div class="mb-4">
+            <label for="book-copies" class="block font-medium mb-1">Available Copies:</label>
+            <input type="number" id="book-copies" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Add Book</button>
+        </form>
+
+        <!-- Add Author -->
+        <form onsubmit="addAuthor(event)" class="bg-white p-6 rounded shadow-md">
+          <h3 class="text-lg font-semibold mb-4">✍️ Add Author</h3>
+          <div class="mb-4">
+            <label for="author-first-name" class="block font-medium mb-1">First Name:</label>
+            <input type="text" id="author-first-name" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <div class="mb-4">
+            <label for="author-last-name" class="block font-medium mb-1">Last Name:</label>
+            <input type="text" id="author-last-name" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <div class="mb-4">
+            <label for="author-dob" class="block font-medium mb-1">Date of Birth:</label>
+            <input type="date" id="author-dob" required class="w-full border border-gray-300 rounded px-3 py-2" />
+          </div>
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Add Author</button>
+        </form>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
-      <!-- Add Book -->
-      <form onsubmit="addBook(event)" class="bg-white p-6 rounded shadow-md">
-        <h3 class="text-lg font-semibold mb-4">➕ Add Book</h3>
-        <div class="mb-4">
-          <label for="book-title" class="block font-medium mb-1">Title:</label>
-          <input type="text" id="book-title" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <div class="mb-4">
-          <label for="book-author" class="block font-medium mb-1">Author ID:</label>
-          <input type="number" id="book-author" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <div class="mb-4">
-          <label for="book-published-date" class="block font-medium mb-1">Published Date:</label>
-          <input type="date" id="book-published-date" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <div class="mb-4">
-          <label for="book-isbn" class="block font-medium mb-1">ISBN Number:</label>
-          <input type="text" id="book-isbn" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <div class="mb-4">
-          <label for="book-copies" class="block font-medium mb-1">Available Copies:</label>
-          <input type="number" id="book-copies" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Add Book</button>
-      </form>
-
-      <!-- Add Author -->
-      <form onsubmit="addAuthor(event)" class="bg-white p-6 rounded shadow-md">
-        <h3 class="text-lg font-semibold mb-4">✍️ Add Author</h3>
-        <div class="mb-4">
-          <label for="author-first-name" class="block font-medium mb-1">First Name:</label>
-          <input type="text" id="author-first-name" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <div class="mb-4">
-          <label for="author-last-name" class="block font-medium mb-1">Last Name:</label>
-          <input type="text" id="author-last-name" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <div class="mb-4">
-          <label for="author-dob" class="block font-medium mb-1">Date of Birth:</label>
-          <input type="date" id="author-dob" required class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Add Author</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // Load the books from the API
-    // Load the books from the API
-    async function loadBooks(url = '/api/books/') {
+    <script>
+      async function loadBooks(url = '/api/books/') {
         const response = await fetch(url);
         const data = await response.json();
         const books = data.results;
         const booksDiv = document.getElementById('books-list');
         booksDiv.innerHTML = '<h3 class="text-xl font-semibold mb-2">Books:</h3>';
-    
+
         if (books.length === 0) {
-        booksDiv.innerHTML += '<p class="text-gray-500">No books found.</p>';
-        return;
-        }
-    
-        books.forEach(book => {
-        booksDiv.innerHTML += `
-            <p class="mb-1">${book.title} by <strong>${book.author.first_name} ${book.author.last_name}</strong>
-            <span class="text-sm text-gray-500">(Published: ${book.published_date})</span>
-            <span class="text-sm text-gray-500">(ISBN: ${book.isbn_number})</span>
-            <span class="text-sm text-gray-500">(Available Copies: ${book.available_copies})</span>
-            </p>`;
-        });
-    
-        // Handle Pagination - Next and Previous buttons
-        if (data.next) {
-        booksDiv.innerHTML += `
-            <button onclick="loadBooks('${data.next}')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-            Next
-            </button>`;
-        }
-    
-        if (data.previous) {
-        booksDiv.innerHTML += `
-            <button onclick="loadBooks('${data.previous}')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-            Previous
-            </button>`;
-        }
-    }
-  
-  // Handle bulk book addition
-  async function addBooksInBulk(event) {
-    event.preventDefault();
-    const bulkBooksJson = document.getElementById('bulk-books').value;
-  
-    try {
-      const books = JSON.parse(bulkBooksJson);
-  
-      const response = await fetch('/api/books/bulk/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(books)
-      });
-  
-      if (response.ok) {
-        alert('Books added successfully!');
-        loadBooks();
-      } else {
-        alert('Error adding books.');
-      }
-    } catch (error) {
-      alert('Invalid JSON format or error adding books.');
-    }
-  }
-  
-  // Set up the bulk book form
-  document.getElementById('bulk-books-form').addEventListener('submit', addBooksInBulk);
-    
-
-    async function loadAuthors() {
-      try {
-        const response = await fetch('/api/authors/');
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const data = await response.json();
-        const authors = data.results;
-        const authorsDiv = document.getElementById('authors-list');
-        authorsDiv.innerHTML = '<h3 class="text-xl font-semibold mb-2">Authors:</h3>';
-
-        if (authors.length === 0) {
-          authorsDiv.innerHTML += '<p class="text-gray-500">No authors found.</p>';
+          booksDiv.innerHTML += '<p class="text-gray-500">No books found.</p>';
           return;
         }
 
-        authors.forEach(author => {
-          const authorElement = document.createElement('p');
-          authorElement.className = "mb-1";
-          authorElement.textContent = `${author.first_name} ${author.last_name} (DOB: ${author.date_of_birth})`;
-          authorsDiv.appendChild(authorElement);
+        books.forEach(book => {
+          booksDiv.innerHTML += `
+            <p class="mb-1">${book.title} by <strong>${book.author.first_name} ${book.author.last_name}</strong>
+              <span class="text-sm text-gray-500">(Published: ${book.published_date})</span>
+              <span class="text-sm text-gray-500">(ISBN: ${book.isbn_number})</span>
+              <span class="text-sm text-gray-500">(Available Copies: ${book.available_copies})</span>
+            </p>`;
         });
-      } catch (error) {
-        console.error("Error fetching authors:", error);
-        alert("Failed to load authors. Please check the console for details.");
+
+        if (data.next) {
+          booksDiv.innerHTML += `
+            <button onclick="loadBooks('${data.next}')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Next</button>`;
+        }
+
+        if (data.previous) {
+          booksDiv.innerHTML += `
+            <button onclick="loadBooks('${data.previous}')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Previous</button>`;
+        }
       }
-    }
 
-    async function addBook(event) {
-      event.preventDefault();
-      const title = document.getElementById('book-title').value;
-      const authorId = document.getElementById('book-author').value;
-      const publishedDate = document.getElementById('book-published-date').value;
-      const isbn = document.getElementById('book-isbn').value;
-      const copies = document.getElementById('book-copies').value;
+      async function loadAuthors(url = '/api/authors/') {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+          const data = await response.json();
+          const authors = data.results;
+          const authorsDiv = document.getElementById('authors-list');
+          authorsDiv.innerHTML = '<h3 class="text-xl font-semibold mb-2">Authors:</h3>';
 
-      const response = await fetch('/api/books/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, author: authorId, published_date: publishedDate, isbn_number: isbn, available_copies: copies })
-      });
+          if (authors.length === 0) {
+            authorsDiv.innerHTML += '<p class="text-gray-500">No authors found.</p>';
+            return;
+          }
 
-      if (response.ok) {
-        alert('Book added successfully!');
-        loadBooks();
-      } else {
-        alert('Error adding book.');
+          authors.forEach(author => {
+            const authorElement = document.createElement('p');
+            authorElement.className = "mb-1";
+            authorElement.textContent = `${author.first_name} ${author.last_name} (DOB: ${author.date_of_birth})`;
+            authorsDiv.appendChild(authorElement);
+          });
+
+          if (data.next) {
+            authorsDiv.innerHTML += `
+              <button onclick="loadAuthors('${data.next}')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Next</button>`;
+          }
+  
+          if (data.previous) {
+            authorsDiv.innerHTML += `
+              <button onclick="loadAuthors('${data.previous}')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Previous</button>`;
+          }
+        } catch (error) {
+          console.error("Error fetching authors:", error);
+          alert("Failed to load authors. Please check the console for details.");
+        }
       }
-    }
 
-    async function addAuthor(event) {
-      event.preventDefault();
-      const firstName = document.getElementById('author-first-name').value;
-      const lastName = document.getElementById('author-last-name').value;
-      const dob = document.getElementById('author-dob').value;
+      async function addBook(event) {
+        event.preventDefault();
+        const title = document.getElementById('book-title').value;
+        const authorId = document.getElementById('book-author').value;
+        const publishedDate = document.getElementById('book-published-date').value;
+        const isbn = document.getElementById('book-isbn').value;
+        const copies = document.getElementById('book-copies').value;
 
-      const response = await fetch('/api/authors/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ first_name: firstName, last_name: lastName, date_of_birth: dob })
-      });
+        const response = await fetch('/api/books/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, author: authorId, published_date: publishedDate, isbn_number: isbn, available_copies: copies })
+        });
 
-      if (response.ok) {
-        alert('Author added successfully!');
-        loadAuthors();
-      } else {
-        alert('Error adding author.');
+        if (response.ok) {
+          alert('Book added successfully!');
+          loadBooks();
+        } else {
+          alert('Error adding book.');
+        }
       }
-    }
-    
-    async function addBooksInBulk(event) {
+
+      async function addAuthor(event) {
+        event.preventDefault();
+        const firstName = document.getElementById('author-first-name').value;
+        const lastName = document.getElementById('author-last-name').value;
+        const dob = document.getElementById('author-dob').value;
+
+        const response = await fetch('/api/authors/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ first_name: firstName, last_name: lastName, date_of_birth: dob })
+        });
+
+        if (response.ok) {
+          alert('Author added successfully!');
+          loadAuthors();
+        } else {
+          alert('Error adding author.');
+        }
+      }
+
+      async function addBooksInBulk(event) {
         event.preventDefault();
         const bulkBooksJson = document.getElementById('bulk-books').value;
-  
+
         try {
           const books = JSON.parse(bulkBooksJson);
           for (const book of books) {
@@ -220,24 +194,23 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(book)
             });
-  
+
             if (!response.ok) {
               alert(`Error adding book: ${book.title}`);
             }
           }
-  
+
           alert('Books added successfully!');
           loadBooks();
         } catch (error) {
           alert('Invalid JSON format or error adding books.');
         }
       }
-  
-    
+
       async function addAuthorsInBulk(event) {
         event.preventDefault();
         const bulkAuthorsJson = document.getElementById('bulk-authors').value;
-  
+
         try {
           const authors = JSON.parse(bulkAuthorsJson);
           for (const author of authors) {
@@ -246,18 +219,22 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(author)
             });
-  
+
             if (!response.ok) {
               alert(`Error adding author: ${author.first_name} ${author.last_name}`);
             }
           }
-  
+
           alert('Authors added successfully!');
           loadAuthors();
         } catch (error) {
           alert('Invalid JSON format or error adding authors.');
         }
       }
-  </script>
-</body>
+
+      // Optional setup for bulk form handlers (if you include forms with these IDs in the HTML)
+      // document.getElementById('bulk-books-form').addEventListener('submit', addBooksInBulk);
+      // document.getElementById('bulk-authors-form').addEventListener('submit', addAuthorsInBulk);
+    </script>
+  </body>
 </html>
